@@ -10,7 +10,6 @@ import {Bill} from "../models/bill.model";
 @Injectable()
 export class BillService {
 
-  key = '09b6f3f5bae5022f8a24f6843f618888';
   constructor(private http: HttpClient) {
 
   }
@@ -26,7 +25,7 @@ export class BillService {
   }
 
   getCurrency(): Observable<any> {
-    return this.http.get(`http://data.fixer.io/api/latest?access_key=${this.key}&symbols=USD,UAH`)
+    return this.http.get(`https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5`)
       .pipe(
         map((response: HttpResponse<any>) => {
           return response;

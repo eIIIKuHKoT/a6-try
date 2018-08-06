@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'ek-currency-card',
@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CurrencyCardComponent implements OnInit {
 
-  constructor() { }
+  @Input() currency: any;
+
+  currencies: string[] = [];
+  date: Date = new Date();
 
   ngOnInit() {
+    for (let c of this.currency) {
+      if (c['ccy'] === 'USD') {
+        this.currencies.push({key: 'USD', value: 1 / c['buy']});
+      }
+      if (c['ccy'] === 'EUR') {
+        this.currencies.push({key: 'EUR', value: 1 / c['buy']});
+      }
+    }
   }
-
 }
