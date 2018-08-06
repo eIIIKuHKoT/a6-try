@@ -9,7 +9,7 @@ export class CurrencyCardComponent implements OnInit {
 
   @Input() currency: any;
 
-  currencies: string[] = [];
+  currencies: Object[] = [];
   date: Date = new Date();
 
   ngOnInit() {

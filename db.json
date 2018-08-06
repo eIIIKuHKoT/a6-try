@@ -5,6 +5,12 @@
       "email": "wfm@mail.ru",
       "password": "12345678",
       "name": "Администратор"
+    },
+    {
+      "email": "chezara40@gmail.com",
+      "password": "12345678",
+      "name": "Evgeny Pochtarenko",
+      "id": 2
     }
   ],
   "bill": {
@@ -26,6 +32,11 @@
       "id": 3,
       "name": "Машина",
       "capacity": 7000
+    },
+    {
+      "name": "Steam",
+      "capacity": 300,
+      "id": 4
     }
   ],
   "events": [

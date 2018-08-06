@@ -11,8 +11,8 @@ export class BillCardComponent implements OnInit {
   @Input() bill: Bill;
   @Input() currency: any;
 
-  dollar: int;
-  euro: int;
+  dollar: number;
+  euro: number;
 
   constructor() {
   }
@@ -21,11 +21,9 @@ export class BillCardComponent implements OnInit {
     for (let c of this.currency) {
         if (c['ccy'] === 'USD') {
           this.dollar = this.bill.value / c['buy'];
-          console.log('dol', this.bill.value / c['buy']);
         }
         if (c['ccy'] === 'EUR') {
           this.euro = this.bill.value / c['buy'];
-          console.log('eur', this.bill.value / c['buy']);
         }
     }
 

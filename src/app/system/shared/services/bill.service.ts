@@ -4,24 +4,20 @@ import {Observable} from "rxjs/index";
 import {map} from "rxjs/internal/operators";
 
 import {Bill} from "../models/bill.model";
+import {BaseApi} from "../../../shared/core/base-api";
 
 
 
 @Injectable()
-export class BillService {
+export class BillService extends BaseApi {
 
-  constructor(private http: HttpClient) {
-
+  constructor(public http: HttpClient) {
+    super(http);
   }
 
   getBill(): Observable<Bill> {
 
-    return this.http.get('http://localhost:3000/bill')
-      .pipe(
-        map((bill: Bill) => {
-          return bill;
-        })
-      );
+    return this.get('bill');
   }
 
   getCurrency(): Observable<any> {

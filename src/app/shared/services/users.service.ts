@@ -4,18 +4,20 @@ import {Observable} from "rxjs/index";
 
 import {User} from "../models/user.model";
 import {map} from "rxjs/internal/operators";
+import {BaseApi} from "../core/base-api";
 
 
 @Injectable()
-export class UsersService {
+export class UsersService extends BaseApi{
 
-  constructor(private http: HttpClient) {
-
+  constructor(public http: HttpClient) {
+    super(http);
   }
 
 
   getUserByEmail(email): Observable<User> {
-    return this.http.get(`http://localhost:3000/users?email=${email}`)
+
+    return this.get(`users?email=${email}`)
       .pipe(
         map((user: User) => {
           return (user[0] ? user[0] : undefined);
@@ -24,11 +26,6 @@ export class UsersService {
   }
 
   createNewUser(user: User): Observable<User> {
-    return this.http.post('http://localhost:3000/users', user)
-      .pipe(
-        map((response: User) => {
-          return response;
-        })
-      );
+    return this.post('users', user);
   }
 }
