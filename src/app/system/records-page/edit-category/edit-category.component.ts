@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {CategoriesService} from "../../shared/services/categories.service";
 import {Category} from "../../shared/models/category.model";
-import {Observable} from "rxjs/index";
+import {Observable, Subscription} from "rxjs/index";
 import {Message} from "../../../shared/models/message.model";
 
 @Component({
@@ -10,7 +10,7 @@ import {Message} from "../../../shared/models/message.model";
   templateUrl: './edit-category.component.html',
   styleUrls: ['./edit-category.component.scss']
 })
-export class EditCategoryComponent implements OnInit {
+export class EditCategoryComponent implements OnInit, OnDestroy{
 
   @Input() categories: Category[] = [];
 
@@ -19,7 +19,7 @@ export class EditCategoryComponent implements OnInit {
   currentCategoryID = 1;
   currentCategory: Category;
   message: Message;
-
+  sub1: Subscription;
   constructor(private categoriesService: CategoriesService) { }
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class EditCategoryComponent implements OnInit {
       capacity *= -1;
     }
     const category = new Category(name, capacity, +this.currentCategoryID);
-    this.categoriesService.updateCategory(category)
+    this.sub1 = this.categoriesService.updateCategory(category)
       .subscribe((category: Category) => {
           this.onCategoryEdit.emit(category);
           this.message.text = 'Категория успешно отпредактирована.';
@@ -49,5 +49,10 @@ export class EditCategoryComponent implements OnInit {
       .find((c => c.id === +this.currentCategoryID));
   }
 
+  ngOnDestroy() {
+    if (this.sub1){
+      this.sub1.unsubscribe();
+    }
+  }
 
 }

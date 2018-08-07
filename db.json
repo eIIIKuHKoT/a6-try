@@ -14,7 +14,7 @@
     }
   ],
   "bill": {
-    "value": 10000,
+    "value": 9900,
     "currency": "UAH"
   },
   "categories": [
@@ -39,9 +39,14 @@
       "id": 4
     },
     {
-      "name": "Test1",
+      "name": "Test",
       "capacity": 123,
       "id": 5
+    },
+    {
+      "name": "Steam2",
+      "capacity": 11123,
+      "id": 6
     }
   ],
   "events": [
@@ -84,6 +89,30 @@
       "date": "10.06.2017 14:01:58",
       "id": 5,
       "description": "Заправка + проход ТО"
+    },
+    {
+      "type": "outcome",
+      "amount": 100,
+      "category": 1,
+      "date": "07.08.2018 12:44:30",
+      "description": "тапки",
+      "id": 6
+    },
+    {
+      "type": "outcome",
+      "amount": 10000,
+      "category": 1,
+      "date": "07.08.2018 12:45:51",
+      "description": "велосипед",
+      "id": 7
+    },
+    {
+      "type": "outcome",
+      "amount": 10000,
+      "category": 1,
+      "date": "07.08.2018 12:46:21",
+      "description": "велосипед",
+      "id": 8
     }
   ]
 }
