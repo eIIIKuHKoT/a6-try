@@ -89,30 +89,6 @@
       "date": "10.06.2017 14:01:58",
       "id": 5,
       "description": "Заправка + проход ТО"
-    },
-    {
-      "type": "outcome",
-      "amount": 100,
-      "category": 1,
-      "date": "07.08.2018 12:44:30",
-      "description": "тапки",
-      "id": 6
-    },
-    {
-      "type": "outcome",
-      "amount": 10000,
-      "category": 1,
-      "date": "07.08.2018 12:45:51",
-      "description": "велосипед",
-      "id": 7
-    },
-    {
-      "type": "outcome",
-      "amount": 10000,
-      "category": 1,
-      "date": "07.08.2018 12:46:21",
-      "description": "велосипед",
-      "id": 8
     }
   ]
 }
