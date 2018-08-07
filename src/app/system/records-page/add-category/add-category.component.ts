@@ -10,7 +10,7 @@ import {Category} from "../../shared/models/category.model";
 })
 export class AddCategoryComponent implements OnInit {
 
-  @Output() onCategoryAdd: EventEmitter = new EventEmitter<Category>();
+  @Output() onCategoryAdd: EventEmitter<any> = new EventEmitter<Category>();
 
   constructor(private categoriesService: CategoriesService) {
   }

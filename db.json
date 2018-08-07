@@ -20,7 +20,7 @@
   "categories": [
     {
       "name": "Дом",
-      "capacity": 15000,
+      "capacity": 123,
       "id": 1
     },
     {
@@ -37,6 +37,11 @@
       "name": "Steam",
       "capacity": 300,
       "id": 4
+    },
+    {
+      "name": "Test1",
+      "capacity": 123,
+      "id": 5
     }
   ],
   "events": [

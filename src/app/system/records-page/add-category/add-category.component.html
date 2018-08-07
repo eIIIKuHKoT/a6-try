@@ -39,7 +39,7 @@
               *ngIf="capacity.invalid && capacity.touched"
         >Лимит должен быть больше нуля.</span>
       </div>
-      <button type="submit" class="btn btn-primary">Добавить</button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Добавить</button>
     </form>
   </div>
 </div>

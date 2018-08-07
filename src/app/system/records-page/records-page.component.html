@@ -3,7 +3,10 @@
     Страница записей <span class="sparkline bar"></span>
   </h3>
 </div>
-<section class="section">
+<section class="section text-center" *ngIf="!isLoaded">
+  Loading...
+</section>
+<section class="section" *ngIf="isLoaded">
   <div class="row">
     <div class="col-md-6">
       <ek-add-event></ek-add-event>
@@ -14,7 +17,9 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-      <ek-edit-category></ek-edit-category>
+      <ek-edit-category [categories]="categories"
+                        (onCategoryEdit)="categoryWasEdited($event)"
+      ></ek-edit-category>
     </div>
   </div>
 </section>
