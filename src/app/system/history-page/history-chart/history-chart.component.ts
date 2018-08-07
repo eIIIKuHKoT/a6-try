@@ -12,7 +12,7 @@ export class HistoryChartComponent implements OnInit {
 
   @Input() data;
 
-  OnInit() {
+  ngOnInit() {
   }
 
 }

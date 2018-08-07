@@ -9,7 +9,10 @@ Loading...
 <div *ngIf="isLoaded">
   <ek-history-chart [data]="chartsData"></ek-history-chart>
 
-  <ek-history-events></ek-history-events>
+  <ek-history-events
+    [categories]="categories"
+    [events]="events"
+  ></ek-history-events>
 
   <ek-history-filter></ek-history-filter>
 </div>
