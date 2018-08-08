@@ -15,7 +15,14 @@ export class RegistrationComponent implements OnInit {
   form: FormGroup;
 
   constructor(private usersService: UsersService,
-              private router: Router) {
+              private router: Router,
+              private title: Title,
+              private meta: Meta) {
+    title.setTitle('Регистрация');
+    meta.addTags([
+      {name: 'keywords', content: 'sign-up,регистрация'},
+      {name: 'description', content: 'страница для регистрации'}
+    ]);
   }
 
   ngOnInit() {
