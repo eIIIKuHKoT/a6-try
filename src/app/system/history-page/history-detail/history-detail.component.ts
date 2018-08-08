@@ -33,7 +33,7 @@ export class HistoryDetailComponent implements OnInit, OnDestroy {
       }),
       mergeMap((event: EKEvent) => {
         this.event = event;
-        return this.categoriesService.getCategoryByID(event.category);
+        return this.categoriesService.getCategoryByID(event.category.toString());
       })
     ).subscribe((category: Category) => {
       this.category = category;
