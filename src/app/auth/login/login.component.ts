@@ -61,7 +61,18 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     const formData = this.form.value;
 
-    this.userService.getUserByEmail(formData.email)
+    this.authService.signInRegular(formData.email, formData.password)
+      .then((res) => {
+        console.log(res.user.providerData);
+
+        this.router.navigate(['/system', 'bill']);
+      })
+      .catch((err) => {
+        this.showMessage({text: err.message, type: "danger"});
+      });
+  }
+
+    /*this.userService.getUserByEmail(formData.email)
       .subscribe((user: User) => {
         if (user) {
           if (user.password === formData.password) {
@@ -77,7 +88,7 @@ export class LoginComponent implements OnInit {
         }
       });
   }
-
+*/
 
   private showMessage(message: Message) {
     this.message = message;

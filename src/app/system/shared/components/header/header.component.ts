@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
 
-    this.user = JSON.parse(window.localStorage.getItem('user'));
+    this.user = this.authService.getCurrentUser();// JSON.parse(window.localStorage.getItem('user'));
 
   }
 

@@ -5,6 +5,7 @@ import {Meta, Title} from "@angular/platform-browser";
 import {UsersService} from "../../shared/services/users.service";
 import {User} from "../../shared/models/user.model";
 import {Router} from "@angular/router";
+import {AuthService} from "../../shared/services/auth.service";
 
 
 @Component({
@@ -19,6 +20,7 @@ export class RegistrationComponent implements OnInit {
   constructor(private usersService: UsersService,
               private router: Router,
               private title: Title,
+              private authService: AuthService,
               private meta: Meta) {
     title.setTitle('Регистрация');
     meta.addTags([
@@ -30,7 +32,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
 
     this.form = new FormGroup({
-      'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails.bind(this)),
+      'email': new FormControl(null, [Validators.required, Validators.email]),
       'name': new FormControl(null, [Validators.required, Validators.minLength(6)]),
       'password': new FormControl(null, [Validators.required]),
       'agree': new FormControl(false, [Validators.requiredTrue])
@@ -40,14 +42,21 @@ export class RegistrationComponent implements OnInit {
   onSubmit() {
     const {email, password, name} = this.form.value;
     const user = new User(email, password, name);
-    this.usersService.createNewUser(user)
-      .subscribe((user: User) => {
+
+    this.authService.signUpRegular(email, password)
+      .then((response) => {
+        return response.user.updateProfile({
+          displayName: name
+        });
+      }).then(() => {
         this.router.navigate(['/login'], {
           queryParams: {
             nowCanLogin: true
           }
         });
-      });
+    }).catch(err => {
+      this.showMessage({text: err.message, type: "danger"});
+    });
   }
 
   forbiddenEmails(control: FormControl): Promise<any> {
