@@ -9,6 +9,7 @@ import {AuthModule} from "./auth/auth.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {UsersService} from "./shared/services/users.service";
 import {AuthService} from "./shared/services/auth.service";
+import {AuthGuard} from "./shared/services/auth-guard";
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import {AuthService} from "./shared/services/auth.service";
     BrowserAnimationsModule,
   ],
   providers: [
-    UsersService, AuthService
+    UsersService, AuthService, AuthGuard
   ],
   bootstrap: [AppComponent]
 })
