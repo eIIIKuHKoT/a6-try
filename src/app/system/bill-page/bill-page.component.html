@@ -12,7 +12,7 @@
 </div>
 <section class="section">
   <div class="row" *ngIf="!isLoaded">
-    Loading...
+    <ek-loader></ek-loader>
   </div>
   <div class="row" *ngIf="isLoaded">
     <ek-bill-card [bill]="bill" [currency]="currency"></ek-bill-card>

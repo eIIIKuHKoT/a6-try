@@ -11,7 +11,7 @@
   </div>
 </div>
 <div *ngIf="!isLoaded" class="text-center">
-Loading...
+  <ek-loader></ek-loader>
 </div>
 <div *ngIf="isLoaded">
   <ek-history-chart [data]="chartsData"></ek-history-chart>
