@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Meta, Title} from "@angular/platform-browser";
 
 import {UsersService} from "../../shared/services/users.service";
 import {User} from "../../shared/models/user.model";
 import {Router} from "@angular/router";
+
 
 @Component({
   selector: 'ek-registration',
