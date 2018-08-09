@@ -46,30 +46,29 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit() {
 
-    const col = this.db.col('users');
-
+    let col = this.db.col('/users');
     const {email, password, name} = this.form.value;
-    const user = new User(email, password, name);
-    this.db.add(col, {email, password, name})
-      .then(result => {
-        console.log(result);
-      });
-/*
+    const user = new Object(email, name);
     this.authService.signUpRegular(email, password)
       .then((response) => {
         return response.user.updateProfile({
           displayName: name,
           photoURL: ''
         });
-      }).then(() => {
+      })
+      .then(() => {
+        return this.db.add(col, {email, name});
+      })
+      .then(() => {
         this.router.navigate(['/login'], {
           queryParams: {
             nowCanLogin: true
           }
         });
-    }).catch(err => {
-      this.showMessage({text: err.message, type: "danger"});
-    });*/
+      })
+      .catch(err => {
+        this.showMessage({text: err.message, type: "danger"});
+      });
   }
 
   forbiddenEmails(control: FormControl): Promise<any> {
@@ -85,6 +84,7 @@ export class RegistrationComponent implements OnInit {
     });
 
   }
+
   private showMessage(message: Message) {
     this.message = message;
     window.setTimeout(() => {
@@ -92,4 +92,7 @@ export class RegistrationComponent implements OnInit {
     }, 5000);
   }
 
+
 }
+
+

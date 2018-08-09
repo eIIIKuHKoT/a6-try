@@ -15,6 +15,7 @@ type DocPredicate<T> = string | AngularFirestoreDocument<T>;
 export class FirestoreService {
 
   constructor(private db: AngularFirestore) {
+
   }
 
   private get timestamp() {
@@ -37,6 +38,7 @@ export class FirestoreService {
     const timestamp = this.timestamp;
     data.updatedAt = timestamp;
     data.createdAt = timestamp;
+    console.log('in adding user');
     return this.col(ref).add(data);
   }
 

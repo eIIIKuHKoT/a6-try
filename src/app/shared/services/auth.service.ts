@@ -18,13 +18,11 @@ export class AuthService {
       (user) => {
         if (user) {
           this.userDetails = user;
-          console.log(1);
         } else {
           this.userDetails = null;
         }
       }
     );
-
   }
 
   getCurrentUser() {
@@ -32,8 +30,7 @@ export class AuthService {
   }
 
   signUpRegular(email, password) {
-    // const credential = firebase.auth.EmailAuthProvider.credential( email, password );
-    return this._firebaseAuth.auth.createUserAndRetrieveDataWithEmailAndPassword(email, password);
+    return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
   }
 
   signInRegular(email, password) {
@@ -48,7 +45,6 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    console.log(2);
     if (this.userDetails == null) {
       return false;
     } else {
