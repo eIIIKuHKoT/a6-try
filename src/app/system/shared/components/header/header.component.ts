@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import * as firebase from "firebase";
 
-import {User} from "../../../../shared/models/user.model";
 import {AuthService} from "../../../../shared/services/auth.service";
 
 
@@ -13,7 +13,7 @@ import {AuthService} from "../../../../shared/services/auth.service";
 export class HeaderComponent implements OnInit {
 
   data: Date = new Date();
-  user: User;
+  user: firebase.User;
 
   constructor(
     private authService: AuthService,

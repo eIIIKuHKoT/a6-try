@@ -18,11 +18,13 @@ export class AuthService {
       (user) => {
         if (user) {
           this.userDetails = user;
+          console.log(1);
         } else {
           this.userDetails = null;
         }
       }
     );
+
   }
 
   getCurrentUser() {
@@ -46,7 +48,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    console.log(this.userDetails);
+    console.log(2);
     if (this.userDetails == null) {
       return false;
     } else {

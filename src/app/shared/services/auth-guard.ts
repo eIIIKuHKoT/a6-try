@@ -2,28 +2,33 @@ import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterSta
 import {Observable} from "rxjs/index";
 import {Injectable} from "@angular/core";
 
-import {AuthService} from "./auth.service";
+import {AngularFireAuth} from "angularfire2/auth";
+import {map} from "rxjs/internal/operators";
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
 
-  constructor(private authService: AuthService,
-              private router: Router) {
+  constructor(private router: Router,
+              private firebaseAuth: AngularFireAuth) {
 
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    console.log(this.authService.isLoggedIn());
-    console.log(1233333333333333333);
-    if (this.authService.isLoggedIn()) {
-      return true;
-    } else {
-      this.router.navigate(['/login'], {
-        queryParams: {
-          accessDenied: true
-        }
-      });
-      return false;
-    }
+
+    return this.firebaseAuth.authState
+      .pipe(
+        map(user => !!user),
+        map((loggedIn) => {
+          if (!loggedIn) {
+            this.router.navigate(['/login'], {
+              queryParams: {
+                accessDenied: true
+              }
+            });
+            return false;
+          }
+          return true;
+        })
+      );
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
