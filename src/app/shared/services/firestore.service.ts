@@ -7,6 +7,7 @@ import {
 } from 'angularfire2/firestore';
 import {map} from "rxjs/internal/operators";
 import {Observable} from "rxjs/index";
+import WhereFilterOp = firebase.firestore.WhereFilterOp;
 
 type CollectionPredicate<T> = string | AngularFirestoreCollection<T>;
 type DocPredicate<T> = string | AngularFirestoreDocument<T>;
@@ -40,6 +41,19 @@ export class FirestoreService {
     data.createdAt = timestamp;
     console.log('in adding user');
     return this.col(ref).add(data);
+  }
+
+  getOneBy(ref: AngularFirestoreCollection, fieldPath: string, opStr: WhereFilterOp, value: any ) {
+
+      const query  = ref.ref.where(fieldPath, opStr, value)
+        .limit(1);
+
+    /*let text = this.db.collection(ref, ref => {
+        return ref.where(fieldPath, opStr, value)
+          .limit(1).valueChag;
+    });*/
+     return query.valueChanges();
+
   }
 
   col<T>(ref: CollectionPredicate<T>, queryFn?): AngularFirestoreCollection<T> {

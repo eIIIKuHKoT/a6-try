@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {combineLatest, Subscription} from "rxjs/index";
+import {combineLatest, Subscription} from "rxjs";
 import * as moment from 'moment';
 
 import {CategoriesService} from "../shared/services/categories.service";
@@ -34,7 +34,6 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
     ).subscribe((data: [Category[], EKEvent[]]) => {
       this.categories = data[0];
       this.events = data[1];
-
       this.setOriginalEvents();
       this.calculateChartData();
 

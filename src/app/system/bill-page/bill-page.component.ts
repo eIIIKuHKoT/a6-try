@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {BillService} from "../shared/services/bill.service";
-import {combineLatest, Subscription} from "rxjs/index";
+import {combineLatest, Subscription} from "rxjs";
 import {Bill} from "../shared/models/bill.model";
 
 @Component({
@@ -29,6 +29,7 @@ export class BillPageComponent implements OnInit, OnDestroy {
 
     this.sub1 = combined
       .subscribe((data: [Bill, any]) => {
+        console.log(data);
         this.bill = data[0];
         this.currency = data[1];
         this.isLoaded = true;

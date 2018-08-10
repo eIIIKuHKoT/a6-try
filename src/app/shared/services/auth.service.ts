@@ -9,8 +9,8 @@ import {Observable} from "rxjs/index";
 export class AuthService {
   isAuthenticated = false;
 
-  private user: Observable<firebase.User>;
-  private userDetails: firebase.User = null;
+  public user: Observable<firebase.User>;
+  public userDetails: firebase.User = null;
 
   constructor(private _firebaseAuth: AngularFireAuth, private router: Router) {
     this.user = _firebaseAuth.authState;
@@ -34,7 +34,6 @@ export class AuthService {
   }
 
   signInRegular(email, password) {
-    const credential = firebase.auth.EmailAuthProvider.credential( email, password );
     return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
 

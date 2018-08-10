@@ -46,18 +46,19 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit() {
 
-    let col = this.db.col('/users');
     const {email, password, name} = this.form.value;
-    const user = new Object(email, name);
+    let userID = null;
     this.authService.signUpRegular(email, password)
       .then((response) => {
+        userID = response.user.uid;
         return response.user.updateProfile({
           displayName: name,
           photoURL: ''
         });
       })
-      .then(() => {
-        return this.db.add(col, {email, name});
+      .then((userRecord) => {
+        const  userDoc = this.db.doc(`/users/${userID}`);
+        return this.db.set(userDoc, {email, name});
       })
       .then(() => {
         this.router.navigate(['/login'], {

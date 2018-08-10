@@ -3,7 +3,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BillService} from "../shared/services/bill.service";
 import {CategoriesService} from "../shared/services/categories.service";
 import {EventsService} from "../shared/services/events.service";
-import {combineLatest, Subscription} from "rxjs/index";
+import {combineLatest, Subscription} from "rxjs";
 import {Bill} from "../shared/models/bill.model";
 import {Category} from "../shared/models/category.model";
 import {EKEvent} from "../shared/models/event.model";
