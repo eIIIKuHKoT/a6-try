@@ -9,9 +9,8 @@ import {Subscription} from "rxjs/index";
   templateUrl: './add-category.component.html',
   styleUrls: ['./add-category.component.scss']
 })
-export class AddCategoryComponent implements OnInit, OnDestroy {
+export class AddCategoryComponent implements OnInit {
 
-  sub1: Subscription;
   @Output() onCategoryAdd: EventEmitter<any> = new EventEmitter<Category>();
 
   constructor(private categoriesService: CategoriesService) {
@@ -26,19 +25,12 @@ export class AddCategoryComponent implements OnInit, OnDestroy {
     if (capacity < 0) {
       capacity = -1;
     }
-    const category = new Category(name, capacity);
-    this.sub1 = this.categoriesService.addCategory(category)
-      .subscribe((category: Category) => {
+
+    this.categoriesService.addCategory({name, capacity})
+      .then((category: Category) => {
         form.reset();
         form.form.patchValue({capacity: 1});
         this.onCategoryAdd.emit(category);
       });
-
-  }
-
-  ngOnDestroy() {
-    if (this.sub1) {
-      this.sub1.unsubscribe();
-    }
   }
 }

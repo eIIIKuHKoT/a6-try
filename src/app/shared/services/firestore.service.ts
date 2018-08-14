@@ -43,19 +43,6 @@ export class FirestoreService {
     return this.col(ref).add(data);
   }
 
-  getOneBy(ref: AngularFirestoreCollection, fieldPath: string, opStr: WhereFilterOp, value: any ) {
-
-      const query  = ref.ref.where(fieldPath, opStr, value)
-        .limit(1);
-
-    /*let text = this.db.collection(ref, ref => {
-        return ref.where(fieldPath, opStr, value)
-          .limit(1).valueChag;
-    });*/
-     return query.valueChanges();
-
-  }
-
   col<T>(ref: CollectionPredicate<T>, queryFn?): AngularFirestoreCollection<T> {
     return typeof ref === 'string' ? this.db.collection<T>(ref, queryFn) : ref;
   }

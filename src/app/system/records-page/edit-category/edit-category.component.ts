@@ -10,17 +10,18 @@ import {Message} from "../../../shared/models/message.model";
   templateUrl: './edit-category.component.html',
   styleUrls: ['./edit-category.component.scss']
 })
-export class EditCategoryComponent implements OnInit, OnDestroy{
+export class EditCategoryComponent implements OnInit {
 
   @Input() categories: Category[] = [];
 
   @Output() onCategoryEdit = new EventEmitter<Category>();
 
-  currentCategoryID = 1;
+  currentCategoryID = false;
   currentCategory: Category;
   message: Message;
-  sub1: Subscription;
-  constructor(private categoriesService: CategoriesService) { }
+
+  constructor(private categoriesService: CategoriesService) {
+  }
 
   ngOnInit() {
     this.message = new Message('', 'success');
@@ -33,25 +34,24 @@ export class EditCategoryComponent implements OnInit, OnDestroy{
     if (capacity < 0) {
       capacity *= -1;
     }
-    const category = new Category(name, capacity, +this.currentCategoryID);
-    this.sub1 = this.categoriesService.updateCategory(category)
-      .subscribe((category: Category) => {
-          this.onCategoryEdit.emit(category);
-          this.message.text = 'Категория успешно отпредактирована.';
-          window.setTimeout(() => {
-            this.message.text = '';
-          }, 5000);
+    const category = {name, capacity, id: this.currentCategoryID};
+    this.categoriesService.updateCategory(category)
+      .then((category: Category) => {
+        this.onCategoryEdit.emit(category);
+        this.message.text = 'Category updated successfully';
+        window.setTimeout(() => {
+          this.message.text = '';
+        }, 5000);
       });
   }
 
   onCategoryChange() {
-    this.currentCategory = this.categories
-      .find((c => c.id === +this.currentCategoryID));
-  }
-
-  ngOnDestroy() {
-    if (this.sub1){
-      this.sub1.unsubscribe();
+    if (!this.currentCategoryID) {
+      this.currentCategory = this.categories[0];
+      this.currentCategoryID = this.categories[0].id;
+    } else {
+      this.currentCategory = this.categories
+        .find((c => c.id === this.currentCategoryID));
     }
   }
 

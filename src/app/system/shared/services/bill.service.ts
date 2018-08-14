@@ -14,7 +14,7 @@ import {AuthService} from "../../../shared/services/auth.service";
 export class BillService extends BaseApi {
 
   billCollection: AngularFirestoreCollection<Bill>;
-  bill: AngularFirestoreDocument<Bill>;
+  bill;
   constructor(public http: HttpClient,
               private firestoreService: FirestoreService,
               private authService: AuthService,
@@ -30,7 +30,10 @@ export class BillService extends BaseApi {
         .limit(1);
     });
     return userBillCol.valueChanges().pipe(
-      map((bill: Bill[]) => bill ? bill[0] : bill)
+      map((bill: Bill[]) => {
+        this.bill = bill ? bill[0] : bill;
+        return this.bill;
+      })
     );
   }
 
@@ -45,5 +48,6 @@ export class BillService extends BaseApi {
 
   updateBill(bill: Bill): Observable<Bill> {
 
+    return this.put('bill', bill);
   }
 }
