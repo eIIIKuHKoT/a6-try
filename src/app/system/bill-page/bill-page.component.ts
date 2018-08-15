@@ -23,7 +23,7 @@ export class BillPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     const combined = combineLatest(
-      this.billService.getBill(),
+      this.billService.getBillObservable(),
       this.billService.getCurrency()
     );
 

@@ -15,26 +15,43 @@ export class BillService extends BaseApi {
 
   billCollection: AngularFirestoreCollection<Bill>;
   bill;
+  table = 'bills';
+
   constructor(public http: HttpClient,
               private firestoreService: FirestoreService,
               private authService: AuthService,
               private db: AngularFirestore) {
     super(http);
     this.billCollection = db.collection('bills');
+
   }
 
-  getBill(): Observable<Bill> {
+  getBillObservable(): Observable<Bill> {
 
-    const userBillCol =  this.db.collection('bills', ref => {
+    const userBillCol = this.db.collection('bills', ref => {
       return ref.where('userID', '==', this.authService.userDetails.uid)
         .limit(1);
     });
+
     return userBillCol.valueChanges().pipe(
       map((bill: Bill[]) => {
         this.bill = bill ? bill[0] : bill;
         return this.bill;
       })
     );
+  }
+
+  getBill(): Promise<any> {
+    return this.billCollection.ref
+      .where('userID', '==', this.authService.userDetails.uid)
+      .get()
+      .then(querySnap => {
+        if (querySnap.empty === true) {
+          return false;
+        } else {
+          return querySnap.docs[0].data();
+        }
+      });
   }
 
   getCurrency(): Observable<any> {
@@ -46,8 +63,9 @@ export class BillService extends BaseApi {
       );
   }
 
-  updateBill(bill: Bill): Observable<Bill> {
+  updateBill(bill): Promise<any> {
 
-    return this.put('bill', bill);
+    return this.firestoreService
+      .update(this.billCollection.doc(bill.id), bill);
   }
 }

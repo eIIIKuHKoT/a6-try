@@ -3,10 +3,12 @@ export class EKEvent {
   constructor(
     public type: string,
     public amount: number,
-    public category: number,
-    public date: string,
+    public categoryID: string,
     public description: string,
-    public id?: number,
-    public catName?: string
+    public id?: string,
+    public catName?: string,
+    public createdAt?: number,
+    public updatedAt?: number,
+
   ) { }
 }

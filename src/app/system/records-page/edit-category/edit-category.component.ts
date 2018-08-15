@@ -16,12 +16,14 @@ export class EditCategoryComponent implements OnInit {
 
   @Output() onCategoryEdit = new EventEmitter<Category>();
 
-  currentCategoryID = false;
+  currentCategoryID = '';
   currentCategory: Category;
   message: Message;
 
   constructor(private categoriesService: CategoriesService) {
   }
+
+  sub1: Subscription;
 
   ngOnInit() {
     this.message = new Message('', 'success');

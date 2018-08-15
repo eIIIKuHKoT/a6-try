@@ -22,7 +22,7 @@ export class HistoryEventsComponent implements OnInit {
   ngOnInit() {
     this.events.forEach((e) => {
       e.catName = this.categories.find(c => {
-        return c.id === e.category;
+        return c.id === e.categoryID;
       }).name;
     });
 

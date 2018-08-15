@@ -12,12 +12,12 @@
     </div>
     <form #form="ngForm" (ngSubmit)="onSubmit(form)">
       <div class="form-group">
-        <label class="control-label" for="category">Выберите категорию</label>
+        <label class="control-label" for="categoryID">Выберите категорию</label>
         <select class="form-control"
-                id="category"
+                id="categoryID"
                 required
-                [ngModel]="1"
-                name="category"
+                [ngModel]="categories[0].id"
+                name="categoryID"
                 ngModel
         >
           <option *ngFor="let c of categories"

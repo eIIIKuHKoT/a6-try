@@ -12,13 +12,12 @@ import {Bill} from "../../shared/models/bill.model";
 import {Message} from "../../../shared/models/message.model";
 
 
-
 @Component({
   selector: 'ek-add-event',
   templateUrl: './add-event.component.html',
   styleUrls: ['./add-event.component.scss']
 })
-export class AddEventComponent implements OnInit, OnDestroy {
+export class AddEventComponent implements OnInit {
 
   @Input() categories: Category[] = [];
   message: Message;
@@ -26,8 +25,6 @@ export class AddEventComponent implements OnInit, OnDestroy {
     {type: "income", label: 'Доход'},
     {type: "outcome", label: "Расход"}
   ];
-  sub1: Subscription;
-  sub2: Subscription;
 
   constructor(private eventsService: EventsService,
               private billService: BillService) {
@@ -41,20 +38,20 @@ export class AddEventComponent implements OnInit, OnDestroy {
     this.message.text = text;
     window.setTimeout(() => {
       this.message.text = '';
-    }, 5000 );
+    }, 5000);
   }
 
   onSubmit(form: NgForm) {
-    let {amount, description, category, type} = form.value;
+    let {amount, description, categoryID, type} = form.value;
     if (amount < 0) {
       amount *= -1;
     }
-    const event = new EKEvent(type, amount, +category,
-      moment().format('DD.MM.YYYY HH:mm:ss'), description);
+    const event = {type, amount, categoryID, description};
 
-    this.sub1 = this.billService.getBill()
-      .subscribe((bill: Bill) => {
+    this.billService.getBill()
+      .then((bill) => {
         let value = bill.value;
+        console.log(bill.value);
         if (type === 'outcome') {
           if (amount > bill.value) {
             this.showMessage(`Не достаточно средств. Вам не хватает ${amount - bill.value}`);
@@ -65,30 +62,17 @@ export class AddEventComponent implements OnInit, OnDestroy {
         } else {
           value = bill.value + amount;
         }
-        this.sub2 = this.billService.updateBill({value, currency: bill.currency})
-          .pipe(
-            mergeMap(() => {
-              return this.eventsService.addEvent(event);
-            })
-          ).subscribe(() => {
+        this.billService.updateBill({value, currency: bill.currency, id: bill.id})
+          .then(() => {
+            return this.eventsService.addEvent(event);
+          }).then(event => {
           form.setValue({
             amount: 0,
             description: ' ',
-            category: '1',
+            categoryID: this.categories[0].id,
             type: 'outcome'
           });
         });
       });
-    // this.eventsService.addEvent(event);
-
-  }
-
-  ngOnDestroy() {
-    if (this.sub1) {
-      this.sub1.unsubscribe();
-    }
-    if (this.sub2) {
-      this.sub2.unsubscribe();
-    }
   }
 }

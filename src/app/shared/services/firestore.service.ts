@@ -7,7 +7,6 @@ import {
 } from 'angularfire2/firestore';
 import {map} from "rxjs/internal/operators";
 import {Observable} from "rxjs/index";
-import WhereFilterOp = firebase.firestore.WhereFilterOp;
 
 type CollectionPredicate<T> = string | AngularFirestoreCollection<T>;
 type DocPredicate<T> = string | AngularFirestoreDocument<T>;
@@ -23,23 +22,27 @@ export class FirestoreService {
     return firebase.firestore.FieldValue.serverTimestamp();
   }
 
-  update<T>(ref: DocPredicate<T>, data: any) {
+  update(doc: AngularFirestoreDocument, data: any): Promise<any> {
     data.updatedAt = this.timestamp;
-    return this.doc(ref).update(data);
+    return doc.update(data);
   }
 
-  set<T>(ref: DocPredicate<T>, data: any) {
+  set(doc: AngularFirestoreDocument, data: any) {
     const timestamp = this.timestamp;
     data.updatedAt = timestamp;
     data.createdAt = timestamp;
-    return this.doc(ref).set(data);
+    return doc.set(data)
+      .then(() => {
+         return doc.ref.onSnapshot(document => {
+           document.data();
+         });
+      });
   }
 
   add<T>(ref: CollectionPredicate<T>, data) {
     const timestamp = this.timestamp;
     data.updatedAt = timestamp;
     data.createdAt = timestamp;
-    console.log('in adding user');
     return this.col(ref).add(data);
   }
 
@@ -51,7 +54,7 @@ export class FirestoreService {
     return typeof ref === 'string' ? this.db.doc<T>(ref) : ref;
   }
 
-  doc$<T>(ref: DocPredicate<T>): Observable<T> {
+  /*doc$<T>(ref: DocPredicate<T>): Observable<T> {
     return this.doc(ref).snapshotChanges().pipe(
       map(doc => {
         return doc.payload.data() as T;
@@ -65,5 +68,5 @@ export class FirestoreService {
         return docs.map(a => a.payload.doc.data()) as T[];
       })
     );
-  }
+  }*/
 }

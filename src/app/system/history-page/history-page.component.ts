@@ -44,7 +44,7 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
     this.chartsData = [];
     this.categories.forEach((cat) => {
       const catEvent = this.filteredEvents.filter(e => {
-        return e.category === cat.id && e.type === 'outcome';
+        return e.categoryID === cat.id && e.type === 'outcome';
       });
       this.chartsData.push({
         name: cat.name,
@@ -83,9 +83,9 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
       console.log(filterData.types);
         return filterData.types.indexOf(e.type) !== -1;
     }).filter(e => {
-        return filterData.categories.indexOf(e.category.toString()) !== -1;
+        return filterData.categories.indexOf(e.categoryID) !== -1;
     }).filter(e => {
-      const momentDate = moment(e.date, 'DD.MM.YYYY HH:mm:ss');
+      const momentDate = moment(e.createdAt, 'DD.MM.YYYY HH:mm:ss');
       return momentDate.isBetween(startPeriod, endPeriod);
     });
     console.log(this.filteredEvents);
