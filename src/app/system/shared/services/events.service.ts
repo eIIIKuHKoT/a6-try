@@ -36,8 +36,23 @@ export class EventsService extends BaseApi {
       });
   }
 
-  getEvents(): Observable<EKEvent[]> {
-    return this.get('events');
+  getEventsObservable(): Observable<EKEvent[]> {
+    return this.eventCollection.valueChanges();
+  }
+
+  getEvents(): Promise<any> {
+    return this.eventCollection.ref.get()
+      .then(querySnap => {
+        let result = [];
+        if (querySnap.empty === true) {
+          return result;
+        } else {
+          for (let doc of querySnap.docs) {
+            result.push(doc.data());
+          }
+          return result;
+        }
+      });
   }
 
   getEventByID(id: string): Observable<EKEvent> {

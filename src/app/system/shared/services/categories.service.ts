@@ -33,8 +33,23 @@ export class CategoriesService extends BaseApi {
         });
   }
 
-  getCategories(): Observable<Category[]> {
+  getCategoriesObservable(): Observable<Category[]> {
     return this.categoriesCol.valueChanges();
+  }
+
+  getCategories(): Promise<any> {
+    return this.categoriesCol.ref.get()
+      .then(querySnap => {
+        let result = [];
+        if (querySnap.empty === true) {
+          return result;
+        } else {
+          for (let doc of querySnap.docs) {
+            result.push(doc.data());
+          }
+          return result;
+        }
+      });
   }
 
   updateCategory(category): Promise<any> {

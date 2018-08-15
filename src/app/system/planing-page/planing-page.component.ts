@@ -13,9 +13,8 @@ import {EKEvent} from "../shared/models/event.model";
   templateUrl: './planing-page.component.html',
   styleUrls: ['./planing-page.component.scss']
 })
-export class PlaningPageComponent implements OnInit, OnDestroy {
+export class PlaningPageComponent implements OnInit {
 
-  sub1: Subscription;
   isLoaded = false;
   bill: Bill;
   categories: Category[] = [];
@@ -29,23 +28,17 @@ export class PlaningPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     const combined = combineLatest(
-      this.billService.getBill(),
-      this.categoriesService.getCategories(),
-      this.eventsService.getEvents()
+      this.billService.getBillObservable(),
+      this.categoriesService.getCategoriesObservable(),
+      this.eventsService.getEventsObservable()
     );
 
-    this.sub1 = combined.subscribe((data: [Bill, Category[], EKEvent[]]) => {
+    combined.subscribe((data: [Bill, Category[], EKEvent[]]) => {
       this.bill = data[0];
       this.categories = data[1];
       this.events = data[2];
       this.isLoaded = true;
     });
-  }
-
-  ngOnDestroy() {
-    if (this.sub1) {
-      this.sub1.unsubscribe();
-    }
   }
 
   getCategoryCost(cat: Category): number {

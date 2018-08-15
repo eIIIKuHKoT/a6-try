@@ -16,7 +16,7 @@ export class RecordsPageComponent implements OnInit {
 
   ngOnInit() {
 
-    this.categoriesService.getCategories()
+    this.categoriesService.getCategoriesObservable()
       .subscribe((categories: Category[]) => {
         this.categories = categories;
 
