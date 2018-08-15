@@ -7,8 +7,8 @@ export class EKEvent {
     public description: string,
     public id?: string,
     public catName?: string,
-    public createdAt?: number,
-    public updatedAt?: number,
+    public createdAt?: any,
+    public updatedAt?: any,
 
   ) { }
 }

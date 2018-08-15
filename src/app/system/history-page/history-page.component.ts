@@ -12,9 +12,8 @@ import {EKEvent} from "../shared/models/event.model";
   templateUrl: './history-page.component.html',
   styleUrls: ['./history-page.component.scss']
 })
-export class HistoryPageComponent implements OnInit, OnDestroy {
+export class HistoryPageComponent implements OnInit {
 
-  sub1: Subscription;
   isLoaded = false;
   events: EKEvent[];
   filteredEvents: EKEvent[] = [];
@@ -28,9 +27,9 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.sub1 = combineLatest(
-      this.categoriesService.getCategories(),
-      this.eventsService.getEvents()
+    combineLatest(
+      this.categoriesService.getCategoriesObservable(),
+      this.eventsService.getEventsObservable()
     ).subscribe((data: [Category[], EKEvent[]]) => {
       this.categories = data[0];
       this.events = data[1];
@@ -44,6 +43,9 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
     this.chartsData = [];
     this.categories.forEach((cat) => {
       const catEvent = this.filteredEvents.filter(e => {
+        if (typeof e.createdAt === 'object') {
+          e.createdAt = e.createdAt.toMillis();
+        }
         return e.categoryID === cat.id && e.type === 'outcome';
       });
       this.chartsData.push({
@@ -68,11 +70,6 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
     this.toggleFilterVisibility(true);
   }
 
-  ngOnDestroy() {
-    if (this.sub1) {
-      this.sub1.unsubscribe();
-    }
-  }
 
   onFilterApply(filterData) {
     this.toggleFilterVisibility(false);
@@ -80,15 +77,14 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
     const startPeriod = moment().startOf(filterData.period).startOf('d');
     const endPeriod = moment().endOf(filterData.period).endOf('d');
     this.filteredEvents = this.filteredEvents.filter(e => {
-      console.log(filterData.types);
         return filterData.types.indexOf(e.type) !== -1;
     }).filter(e => {
         return filterData.categories.indexOf(e.categoryID) !== -1;
     }).filter(e => {
-      const momentDate = moment(e.createdAt, 'DD.MM.YYYY HH:mm:ss');
+      const momentDate = moment(e.createdAt);
+      console.log(momentDate);
       return momentDate.isBetween(startPeriod, endPeriod);
     });
-    console.log(this.filteredEvents);
     this.calculateChartData();
   }
 

@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from "@angular/core";
-
+import * as moment from 'moment';
 @Pipe({
   name: "ekFilter"
 })
@@ -17,6 +17,10 @@ export class FilterPipe implements PipeTransform {
       }
       if (field === 'category') {
         t[field] = t['catName'];
+      }
+      console.log(field);
+      if (field === 'createdAt') {
+        t[field] = moment(t[field]).format('DD.MM.YYYY');
       }
       return t[field].toString().toLowerCase().indexOf(value.toLowerCase()) !== -1;
     });

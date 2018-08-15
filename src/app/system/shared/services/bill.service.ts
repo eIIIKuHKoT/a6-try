@@ -16,7 +16,6 @@ export class BillService extends BaseApi {
   billCollection: AngularFirestoreCollection<Bill>;
   bill;
   table = 'bills';
-
   constructor(public http: HttpClient,
               private firestoreService: FirestoreService,
               private authService: AuthService,

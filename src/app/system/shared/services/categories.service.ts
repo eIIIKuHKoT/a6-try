@@ -63,8 +63,14 @@ export class CategoriesService extends BaseApi {
       });
   }
 
-  getCategoryByID(id: string): Observable<Category> {
-    return this.get(`categories/${id}`);
+  getCategoryByID(id: string): Promise<any> {
+    return this.categoriesCol.doc(id).ref
+      .get()
+      .then(doc => {
+        return doc.data();
+      });
+
+
   }
 
 }

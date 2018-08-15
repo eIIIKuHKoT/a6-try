@@ -31,7 +31,7 @@
               <li>Комментарий: <strong>{{event.description}}</strong></li>
             </ul>
           </div>
-          <div class="card-footer">{{event.date}}</div>
+          <div class="card-footer">{{event.createdAt | date:'dd.MM.yyyy hh:mm:ss'}}</div>
         </div>
       </div>
     </div>

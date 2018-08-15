@@ -20,7 +20,7 @@
               </button>
               <div class="dropdown-menu">
                 <a class="dropdown-item" (click)="changeCriteria('amount')">Сумма</a>
-                <a class="dropdown-item" (click)="changeCriteria('date')" >Дата</a>
+                <a class="dropdown-item" (click)="changeCriteria('createdAt')" >Дата</a>
                 <a class="dropdown-item" (click)="changeCriteria('category')">Категория</a>
                 <a class="dropdown-item" (click)="changeCriteria('type')">Тип</a>
               </div>
@@ -43,7 +43,7 @@
             <tr *ngFor="let e of events | ekFilter:searchValue:searchField; let idx = index">
               <th scope="row">{{idx +1 }}</th>
               <td>{{e.amount | number:'1.2'}}</td>
-              <td>{{e.date | ekMoment:'DD.MM.YYYY HH:mm:ss'}}</td>
+              <td>{{e.createdAt | date:'dd.MM.yyyy'}}</td>
               <td>{{e.catName}}</td>
               <td>
                 <span [ngClass]="getEventClass(e)">

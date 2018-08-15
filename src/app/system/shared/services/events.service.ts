@@ -7,6 +7,7 @@ import {EKEvent} from "../models/event.model";
 import {FirestoreService} from "../../../shared/services/firestore.service";
 import {AuthService} from "../../../shared/services/auth.service";
 import {AngularFirestore, AngularFirestoreCollection} from "angularfire2/firestore";
+import {map} from "rxjs/internal/operators";
 
 @Injectable()
 export class EventsService extends BaseApi {
@@ -55,7 +56,11 @@ export class EventsService extends BaseApi {
       });
   }
 
-  getEventByID(id: string): Observable<EKEvent> {
-    return this.get(`events/${id}`);
+  getEventByID(id: string): Promise<any> {
+    return this.eventCollection.doc(id).ref
+      .get()
+      .then(doc => {
+        return doc.data();
+      });
   }
 }

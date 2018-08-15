@@ -39,7 +39,7 @@ export class HistoryEventsComponent implements OnInit {
   changeCriteria(field: string) {
       const namesMap = {
         amount: 'Сумма',
-        date: 'Дата',
+        createdAt: 'Дата',
         category: 'Категория',
         type: 'Тип'
       };
